@@ -1,44 +1,35 @@
 import 'package:flutter/material.dart';
 
-import '../flet_backend.dart';
 import '../models/control.dart';
+import 'icon_registry.dart';
 import 'material_state.dart';
 
-IconData? parseIconData(int? value, FletBackend backend,
-    [IconData? defaultValue]) {
+IconData? parseIconData(int? value, [IconData? defaultValue]) {
   if (value == null) return defaultValue;
 
-  for (var extension in backend.extensions) {
-    var iconData = extension.createIconData(value);
-    if (iconData != null) {
-      return iconData;
-    }
-  }
-
-  return null;
+  return IconRegistry().createIconData(value);
 }
 
 WidgetStateProperty<Icon?>? parseWidgetStateIcon(
   dynamic value,
-  FletBackend backend,
   ThemeData theme, {
   Icon? defaultIcon,
   WidgetStateProperty<Icon?>? defaultValue,
 }) {
   if (value == null) return defaultValue;
   return getWidgetStateProperty<Icon?>(
-      value, (jv) => Icon(parseIconData(jv as int, backend)), defaultIcon);
+      value, (jv) => Icon(parseIconData(jv as int)), defaultIcon);
 }
 
 extension IconParsers on Control {
   IconData? getIconData(String propertyName, [IconData? defaultValue]) {
-    return parseIconData(get(propertyName), backend, defaultValue);
+    return parseIconData(get(propertyName), defaultValue);
   }
 
   WidgetStateProperty<Icon?>? getWidgetStateIcon(
       String propertyName, ThemeData theme,
       {Icon? defaultIcon, WidgetStateProperty<Icon?>? defaultValue}) {
-    return parseWidgetStateIcon(get(propertyName), backend, theme,
+    return parseWidgetStateIcon(get(propertyName), theme,
         defaultIcon: defaultIcon, defaultValue: defaultValue);
   }
 }

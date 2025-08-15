@@ -13,8 +13,4 @@ abstract class FletExtension {
   FletService? createService(Control control) {
     return null;
   }
-
-  IconData? createIconData(int iconCode) {
-    return null;
-  }
 }

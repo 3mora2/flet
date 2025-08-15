@@ -5,7 +5,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import '../flet_backend.dart';
 import '../models/control.dart';
 import '../utils/transforms.dart';
 import 'alignment.dart';
@@ -670,8 +669,7 @@ SwitchThemeData? parseSwitchTheme(
     trackColor: parseWidgetStateColor(value["track_color"], theme),
     overlayColor: parseWidgetStateColor(value["overlay_color"], theme),
     splashRadius: parseDouble(value["splash_radius"]),
-    thumbIcon: parseWidgetStateIcon(
-        value["thumb_icon"], FletBackend.of(context), theme),
+    thumbIcon: parseWidgetStateIcon(value["thumb_icon"], theme),
     trackOutlineColor:
         parseWidgetStateColor(value["track_outline_color"], theme),
     trackOutlineWidth: parseWidgetStateDouble(value["track_outline_width"]),
@@ -1093,8 +1091,7 @@ SegmentedButtonThemeData? parseSegmentedButtonTheme(
     Map<dynamic, dynamic>? value, ThemeData theme, BuildContext context,
     [SegmentedButtonThemeData? defaultValue]) {
   if (value == null) return defaultValue;
-  var selectedIcon =
-      parseIconData(value["selected_icon"], FletBackend.of(context));
+  var selectedIcon = parseIconData(value["selected_icon"]);
 
   return theme.segmentedButtonTheme.copyWith(
     selectedIcon: selectedIcon != null ? Icon(selectedIcon) : null,
